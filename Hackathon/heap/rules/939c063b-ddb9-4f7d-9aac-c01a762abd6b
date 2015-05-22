@@ -1,0 +1,11 @@
+{
+    "computation": "def mails=[]\r\n\r\ndef h=new ro.endava.hackathon2015.Heap('mails')\r\n\r\nreturn h.list()",
+    "description": "Show all mails",
+    "hot": "on",
+    "label": "GET mails",
+    "precondition": "def method=x.exchange.requestMethod\r\n\r\n(method=='GET')&&(x.exchange.requestURI.path=~/\\/mails$/)",
+    "protocol": "http",
+    "rendition": "def mails=x.computation\r\n\r\ndef h=new ro.endava.hackathon2015.Heap('mails')\r\n\r\ndef result=\"\";\r\nmails.each{mailId->\r\n  result+=\"<a href='/mails/${mailId}'>${mailId}</a><br/>\"\r\n}\r\n\r\nreturn result"
+}n\r\nreturn result"
+}utput.toJson(mails)"
+}

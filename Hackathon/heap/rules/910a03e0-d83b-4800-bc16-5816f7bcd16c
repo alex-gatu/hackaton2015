@@ -1,0 +1,9 @@
+{
+    "computation": "true",
+    "description": "Send mail with expression in subject and note in body",
+    "hot": "on",
+    "label": "Store the email on mock server",
+    "precondition": "true",
+    "protocol": "smtp",
+    "rendition": "[from:x.from, raw:x.raw, subject: x.raw.split('Subject: ')[1].split('\\r\\n')[0]]"
+}

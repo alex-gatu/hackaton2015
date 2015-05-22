@@ -1,0 +1,8 @@
+{
+    "computation": "def books=[]\r\n\r\n(1..4).each{bookId->\r\n  books.add ([id:bookId, title:\"Title $bookId\", author:\"author_$bookId\", chapters:['Chapter 1 - introduction', 'Chapter 2 - Contents']])\r\n}\r\n\r\nreturn books",
+    "description": "Get the collection of all books",
+    "label": "GET /books",
+    "precondition": "def method=x.exchange.requestMethod\r\n\r\n(method=='GET')&&(x.exchange.requestURI.path=~/\\/books$/)",
+    "protocol": "http",
+    "rendition": "def books=x.computation\r\n\r\nx.httpConnection.responseHeaders.put('Content-Type','application/json');\r\n\r\nreturn groovy.json.JsonOutput.toJson(books)"
+}}

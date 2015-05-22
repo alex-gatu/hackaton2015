@@ -1,0 +1,9 @@
+{
+    "computation": "def bookId=x.exchange.requestURI.path.split('books/')[1].split('/')[0]\r\n\r\ndef book=[id:bookId, title:\"Title $bookId\", author:\"author_$bookId\", chapters:(['Chapter 1 - introduction', 'Chapter 2 - Contents', 'Chapter 3 - Ending']+(1..(bookId as int)).collect{\"Smart chapter $it\"})]\r\n\r\ntry{\r\n    bookId=bookId as int;\r\nif((bookId<0)||(bookId>63))\r\n    book=null;\r\n}catch(e){\r\n    book=null;\r\n}\r\n\r\nreturn book",
+    "description": "Get QR image for a given book ISBN",
+    "hot": "on",
+    "label": "GET /books/{id}/qr",
+    "precondition": "def method=x.exchange.requestMethod\r\n\r\n(method=='GET')&&(x.exchange.requestURI.path=~/\\/books\\/\\d+\\/qr$/)",
+    "protocol": "http",
+    "rendition": "def book=x.computation;\r\n\r\ndef url=\"http://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=URN:ISBN:${book.id}&chld=H|0\".toURL()\r\ndef is=url.openStream()\r\n\r\ndef bytes=sun.misc.IOUtils.readFully(is,-1,true)\r\n\r\nx.httpConnection.responseHeaders.put('Content-Type','image/png');\r\n//x.httpConnection.responseHeaders.put('Content-Encoding','');\r\n\r\nx.httpConnection.output.write bytes\r\nreturn null"
+}

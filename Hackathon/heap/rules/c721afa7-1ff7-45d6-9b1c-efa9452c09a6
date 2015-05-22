@@ -1,0 +1,9 @@
+{
+    "computation": "return x._HEADERS.Authorization",
+    "description": "Get my details (Basic authentication proof)",
+    "hot": "on",
+    "label": "GET /me",
+    "precondition": "def method=x.exchange.requestMethod\r\n\r\n(method=='GET')&&(x.exchange.requestURI.path=~/\\/me$/)",
+    "protocol": "http",
+    "rendition": "def auth=x.computation\r\n\r\nif(!auth){\r\n  x.httpConnection.responseCode=401;\r\n  x.exchange.responseHeaders.add('WWW-Authenticate','Basic realm=\"Gugu gaga:\"')\r\n  return\r\n}else{\r\n  auth=auth.substring(6)\r\n  auth=new String(auth.decodeBase64()).split(':')\r\n  data=[user:auth[0], pass:auth[1]]\r\n  return groovy.json.JsonOutput.toJson(data)\r\n}\r\n"
+}

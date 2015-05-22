@@ -1,0 +1,8 @@
+{
+    "computation": "def payload=new String(x.httpConnection.requestBytes)\r\nreturn new groovy.json.JsonSlurper().parseText(payload)",
+    "description": "Replaces a given book with the new one",
+    "label": "PUT /books/{id}",
+    "precondition": "def method=x.exchange.requestMethod\r\n\r\nmethod=='PUT'",
+    "protocol": "http",
+    "rendition": "def payload=x.computation;\r\n\r\nx.httpConnection.responseHeaders.put('Content-Type','application/json');\r\n\r\ndef data=null;\r\nif(!payload){\r\n  x.httpConnection.responseCode=501;\r\n  data=[Error:[Code:'e1505222026','Messasge':'Invalid request']]\r\n}else{\r\n  x.httpConnection.responseCode=205;\r\n  data=[id:64,title:payload.title]\r\n}\r\n\r\nreturn groovy.json.JsonOutput.toJson(data);"
+}

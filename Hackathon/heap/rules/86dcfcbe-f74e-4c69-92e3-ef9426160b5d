@@ -1,0 +1,9 @@
+{
+    "computation": "null",
+    "description": "Delete a given book",
+    "label": "DELETE /books",
+    "precondition": "def method=x.exchange.requestMethod\r\n\r\n(method=='DELETE')&&(x.exchange.requestURI.path=~/\\/books\\/\\d+/)",
+    "protocol": "http",
+    "rendition": "def id=x.exchange.requestURI.path.split('books/')[1].split('/')[0] as int\r\n\r\nx.httpConnection.responseHeaders.put('Content-Type','application/json');\r\n\r\nif((id<0)||(id>63)){\r\n  x.httpConnection.responseCode=501;\r\n  data=[Error:[Code:'e1505222026','Messasge':'Book not found']]\r\n}else{\r\n  x.httpConnection.responseCode=204;\r\n  return;\r\n}\r\n\r\nreturn groovy.json.JsonOutput.toJson(data);"
+}}sonOutput.toJson(data);"
+}

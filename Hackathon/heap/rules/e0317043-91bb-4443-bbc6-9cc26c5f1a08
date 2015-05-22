@@ -1,0 +1,12 @@
+{
+    "computation": "def h=new ro.endava.hackathon2015.Heap('mails')\r\n\r\nreturn h.get(x.exchange.requestURI.path.split('/') [2])\r\n",
+    "description": "Get one mail",
+    "label": "GET mails/{id}",
+    "precondition": "def method=x.exchange.requestMethod\r\n\r\n(method=='GET')&&(x.exchange.requestURI.path=~/^\\/mails\\/.+$/)",
+    "protocol": "http",
+    "rendition": "def mail=x.computation\r\n\r\nx.httpConnection.responseHeaders.put('Content-Type','application/json');\r\n\r\nreturn groovy.json.JsonOutput.toJson(mail)"
+}s')\r\n\r\ndef result=\"\";\r\nmails.each{mail->\r\n  \r\n}\r\n\r\nreturn groovy.json.JsonOutput.toJson(mails)"
+}nOutput.toJson(mails)"
+}
+}ails)"
+}

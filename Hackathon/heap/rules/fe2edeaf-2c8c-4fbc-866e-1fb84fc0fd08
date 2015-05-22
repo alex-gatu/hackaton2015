@@ -1,0 +1,9 @@
+{
+    "computation": "true",
+    "description": "Link a given book to its parent",
+    "hot": "on",
+    "label": "LINK /books/{id}/{parentId}",
+    "precondition": "def method=x.exchange.requestMethod\r\n\r\nmethod=='LINK'",
+    "protocol": "http",
+    "rendition": "def tokens=x.exchange.requestURI.path.split(/\\//)\r\n\r\nx.httpConnection.responseHeaders.put('Content-Type','application/json');\r\n\r\ndef data=null\r\nif(tokens.length>3)\r\n  data=[bookId:tokens[2],parentId:tokens[3],status:\"Successful-linkage; book ${tokens[2]} linked to book ${tokens[3]}\"]\r\nelse\r\n  data=[status:'Failure',message:'Missing parameters; `books/{bookId}/{parentBookId}']\r\n\r\nreturn groovy.json.JsonOutput.toJson(data);"
+}

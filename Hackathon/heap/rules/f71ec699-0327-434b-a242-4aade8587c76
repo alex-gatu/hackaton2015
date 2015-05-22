@@ -1,0 +1,8 @@
+{
+    "computation": "def bookId=x.exchange.requestURI.path.split('books/')[1].split('/')[0]\r\n\r\ndef book=[id:bookId, title:\"Title $bookId\", author:\"author_$bookId\", chapters:(['Chapter 1 - introduction', 'Chapter 2 - Contents', 'Chapter 3 - Ending']+(1..(bookId as int)).collect{\"Smart chapter $it\"})]\r\n\r\ntry{\r\n    bookId=bookId as int;\r\nif((bookId<0)||(bookId>63))\r\n    book=null;\r\n}catch(e){\r\n    book=null;\r\n}\r\n\r\nreturn book",
+    "description": "Get a given book (ids only in [1..63], otherwise HTTP 404) + Accept: XML",
+    "label": "GET /books/{@id}",
+    "precondition": "def method=x.exchange.requestMethod\r\n\r\n(method=='GET')&&(x.exchange.requestURI.path=~/\\/books\\/\\d+$/)",
+    "protocol": "http",
+    "rendition": "def book=x.computation;\r\n\r\nif(book==null){\r\n  x.httpConnection.responseCode=404;\r\n}else{\r\n  if(x._HEADERS['Accept']=='application/xml'){\r\n  x.httpConnection.responseHeaders.put('Content-Type','application/xml');\r\n  return \"<xml><id>${book.id}</id><title>${book.title}</title></xml>\";\r\n  }else{\r\n  x.httpConnection.responseHeaders.put('Content-Type','application/json');\r\n  return groovy.json.JsonOutput.toJson(x.computation);\r\n  }\r\n}"
+}
